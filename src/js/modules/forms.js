@@ -1,3 +1,4 @@
+import checkNum from './checkNum';
 const forms = () => {
     const form = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input'),
@@ -20,11 +21,12 @@ const forms = () => {
         return await res.text();
     };
 
-    inputsPhone.forEach(item => {
-        item.addEventListener('input', () => {
-           item.value = item.value.replace(/\D/, "");
-        });
-    });
+
+    
+
+    checkNum(inputsPhone);
+
+    
 
 
 
