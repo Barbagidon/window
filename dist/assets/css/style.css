@@ -13,13 +13,7 @@ body {
   color: #000000;
 }
 
-.show{
-  display: block;
-}
 
-.hide{
-  display: none;
-}
 
 .status {
   display: block;
@@ -494,7 +488,7 @@ textarea:focus {
   display: none;
 }
 
-.glazing a.active {
+.glazing .active a {
   text-decoration: none;
   color: #454545;
 }
@@ -1810,6 +1804,17 @@ textarea:focus {
   .popup_calc_profile_button {
     padding: 1rem 5rem;
   }
+}
+
+.show{
+  display: block;
+}
+
+.hide{
+  display: none;
+}
+.showInline{
+  display: inline-block;
 }
 
 /* small devices, tablets */

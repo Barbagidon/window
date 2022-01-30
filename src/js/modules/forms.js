@@ -1,5 +1,7 @@
 import checkNum from './checkNum';
-const forms = () => {
+import clearInfo from "../main";
+import {hideContent} from './modals';
+const forms = (state) => {
     const form = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input'),
         inputsPhone = document.querySelectorAll('input[name = "user_phone"]');
@@ -22,14 +24,6 @@ const forms = () => {
     };
 
 
-    
-
-    checkNum(inputsPhone);
-
-    
-
-
-
     function createMessage() {
         form.forEach(item => {
             item.addEventListener('submit', (e) => {
@@ -39,18 +33,34 @@ const forms = () => {
                 message.textContent = messages.loading;
                 item.append(message);
                 const formData = new FormData(item);
+                if (item.getAttribute('data-calc') === 'end') {
+                    for (let key in state) {
+                        formData.append(key, state[key]);
+                    }
+                }
+
                 postData('assets/server.php', formData)
                     .then(res => {
                         console.log(res);
                         message.textContent = messages.ok;
+                        state = {};
                     })
                     .catch(() => message.textContent = messages.wrong)
                     .finally(() => {
                         setTimeout(() => {
                             message.remove();
+                            state ={};
+                            // document.querySelector('.popup_calc_end').classList.remove('show');
+                            const endWindow =  document.querySelector('.popup_calc_end');
+                            
+                           hideContent(endWindow, 'show', 'hide');
+                           item.reset();
                         }, 4000);
 
-                        item.reset();
+                        
+                    
+                        
+
                     });
 
 
@@ -60,6 +70,7 @@ const forms = () => {
         });
     }
 
+    checkNum(inputsPhone);
     createMessage();
 };
 export default forms;

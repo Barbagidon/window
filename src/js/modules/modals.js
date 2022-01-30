@@ -1,6 +1,26 @@
-const modals = () => {
+import clearInfo from "../main";
+import {checkInputs} from "./checkInputs";
 
-    function modalContent(trigger, item, closeTrigger, closeStrict = false) {
+function hideContent(item, activeClass, hideClass) {
+    item.classList.remove(activeClass);
+    item.classList.add(hideClass);
+    document.body.style.overflow = '';
+    clearInfo();
+}
+
+function returnActiveTab(selector, activeClass, i) {
+    const tabs = document.querySelectorAll(selector);
+    tabs.forEach(tab => {
+        tab.classList.remove(activeClass);
+    });
+    tabs[i].classList.add(activeClass);
+
+}
+returnActiveTab('.balcon_icons_img', 'do_image_more', 0);
+const modals = (state) => {
+
+
+    function modalContent(state, trigger, item, closeTrigger, closeStrict = false) {
         const btn = document.querySelectorAll(trigger),
             pop = document.querySelector(item),
             close = document.querySelector(closeTrigger),
@@ -10,60 +30,66 @@ const modals = () => {
 
 
         function closeWindow() {
+
             windows.forEach(item => {
                 item.classList.remove('show');
                 item.classList.add('hide');
             });
         }
-        
+
 
         btn.forEach(item => {
-            showHidePop(item, pop, close);
+            showHidePop(state, item, pop, close);
         });
 
 
         function showContent(item) {
-            item.classList.add(activeClass);
-            item.classList.remove(hideClass);
+            pop.classList.add(activeClass);
+            pop.classList.remove(hideClass);
+
             document.body.style.overflow = 'hidden';
             // clearInterval(timerId);
         }
 
-        function hideContent(item) {
-            item.classList.remove(activeClass);
-            item.classList.add(hideClass);
-            document.body.style.overflow = '';
 
-        }
 
-        function showHidePop(trigger, item, closeTrigger) {
+        function showHidePop(state, trigger, item, closeTrigger) {
 
-            trigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (closeStrict) {
-                    closeWindow();
-                    showContent(item);
-                }
-                if (closeStrict == false) {
-                    showContent(item);
-                }
-            });
+            function triggerActive(state) {
+                trigger.addEventListener('click', (e) => {
+                    let target = e.target;
+                    e.preventDefault();
+                    if (target.classList.contains('popup_calc_button')) {
+                        checkInputs(state, '.popup_calc_content input', closeWindow, showContent, pop, '#width', '#height', 'value');
+
+                    } else if (target.classList.contains('popup_calc_profile_button')) {
+                        checkInputs(state, '.checkbox-custom', closeWindow, showContent, pop, 'input[name="cold"]', 'input[name="warm"]', 'checked');
+                    } else {
+                        if (closeStrict) {
+                            closeWindow(state);
+                            showContent(item);
+                        }
+                        if (closeStrict == false) {
+                            showContent(item);
+                        }
+                    }
+
+                });
+            }
+            triggerActive(state);
 
             item.addEventListener('click', (e) => {
                 const target = e.target;
                 if (closeStrict) {
                     if (target && target == closeTrigger || target == closeTrigger.children[0]) {
-                        hideContent(item);
+                        hideContent(item, 'show', 'hide');
 
                     }
                 } else {
                     if (target && target == closeTrigger || target == item || target == closeTrigger.children[0]) {
-                        hideContent(item);
+                        hideContent(item, 'show', 'hide');
                     }
-
                 }
-
-
             });
 
         }
@@ -81,11 +107,11 @@ const modals = () => {
 
 
 
-    modalContent('.header_btn', '.popup_engineer', '.popup_engineer .popup_close');
-    modalContent('.phone_link', '.popup', '.popup .popup_close');
-    modalContent('.glazing_price_btn', '.popup_calc', '.popup_calc_close');
-    modalContent('.popup_calc_button', '.popup_calc_profile', '.popup_calc_profile_close', true);
-    modalContent('.popup_calc_profile_button', '.popup_calc_end', '.popup_calc_end_close', true);
+    modalContent(state, '.header_btn', '.popup_engineer', '.popup_engineer .popup_close');
+    modalContent(state, '.phone_link', '.popup', '.popup .popup_close');
+    modalContent(state, '.glazing_price_btn', '.popup_calc', '.popup_calc_close');
+    modalContent(state, '.popup_calc_button', '.popup_calc_profile', '.popup_calc_profile_close', true);
+    modalContent(state, '.popup_calc_profile_button', '.popup_calc_end', '.popup_calc_end_close', true);
 
 };
 
@@ -93,3 +119,6 @@ const modals = () => {
 
 
 export default modals;
+export {
+    hideContent
+};
