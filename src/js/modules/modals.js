@@ -1,10 +1,17 @@
 import clearInfo from "../main";
-import {checkInputs, checkboxOff} from "./checkInputs";
+import {
+    checkInputs,
+    checkboxOff
+} from "./checkInputs";
+import calcScroll from "./calcscroll";
 
 function hideContent(item, activeClass, hideClass) {
     item.classList.remove(activeClass);
     item.classList.add(hideClass);
     document.body.style.overflow = '';
+    document.body.style.marginRight = `0px`;
+
+
     clearInfo();
     checkboxOff('.popup_calc_profile input', '.checkbox-custom');
 }
@@ -27,7 +34,8 @@ const modals = (state) => {
             close = document.querySelector(closeTrigger),
             activeClass = 'show',
             hideClass = 'hide',
-            windows = document.querySelectorAll('[data-modal]');
+            windows = document.querySelectorAll('[data-modal]'),
+            scroll = hideScroll();
 
 
         function closeWindow() {
@@ -47,9 +55,23 @@ const modals = (state) => {
         function showContent(item) {
             pop.classList.add(activeClass);
             pop.classList.remove(hideClass);
-
             document.body.style.overflow = 'hidden';
+            document.body.style.marginRight = `${scroll}px`;
             // clearInterval(timerId);
+        }
+
+        function hideScroll() {
+            const div = document.createElement('div');
+            document.body.append(div);
+            div.style.width = '50px';
+            div.style.height = '50px';
+            div.style.overflowY = 'scroll';
+            div.style.visibility = 'hidden';
+
+            const result = div.offsetWidth - div.clientWidth;
+
+            return result;
+
         }
 
 
@@ -105,6 +127,8 @@ const modals = (state) => {
         //     showContent(linkPop);
         // }, 6000);
     }
+
+
 
 
 

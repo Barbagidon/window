@@ -6,6 +6,10 @@ import changeModalState from './modules/changeModalState';
 import timer from './modules/timer';
 import images from './modules/images';
 
+document.querySelectorAll('.glazing_content').forEach(item => {
+    item.classList.add('faded');
+
+});
 let windowInfo = {
     form: 1,
     type: 'tree'
@@ -19,12 +23,6 @@ function clearInfo() {
 
     windowInfo.form = 1;
     windowInfo.type = 'tree';
-
-
-
-
-
-
 }
 
 
