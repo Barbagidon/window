@@ -50,7 +50,6 @@ const forms = (state) => {
                         setTimeout(() => {
                             message.remove();
                             state ={};
-                            // document.querySelector('.popup_calc_end').classList.remove('show');
                             const endWindow =  document.querySelector('.popup_calc_end');
                             
                            hideContent(endWindow, 'show', 'hide');

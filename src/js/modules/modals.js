@@ -1,11 +1,12 @@
 import clearInfo from "../main";
-import {checkInputs} from "./checkInputs";
+import {checkInputs, checkboxOff} from "./checkInputs";
 
 function hideContent(item, activeClass, hideClass) {
     item.classList.remove(activeClass);
     item.classList.add(hideClass);
     document.body.style.overflow = '';
     clearInfo();
+    checkboxOff('.popup_calc_profile input', '.checkbox-custom');
 }
 
 function returnActiveTab(selector, activeClass, i) {
@@ -63,7 +64,7 @@ const modals = (state) => {
                         checkInputs(state, '.popup_calc_content input', closeWindow, showContent, pop, '#width', '#height', 'value');
 
                     } else if (target.classList.contains('popup_calc_profile_button')) {
-                        checkInputs(state, '.checkbox-custom', closeWindow, showContent, pop, 'input[name="cold"]', 'input[name="warm"]', 'checked');
+                        checkInputs(state, '.checkbox-custom', closeWindow, showContent, pop, 'input[name="cold"]', 'input[name="warm"]', 'checked', '.popup_calc_profile input');
                     } else {
                         if (closeStrict) {
                             closeWindow(state);
