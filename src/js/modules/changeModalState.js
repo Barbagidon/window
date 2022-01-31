@@ -37,9 +37,7 @@ const changeModalState = (state) => {
                 }
 
                 console.log(state);
-
             });
-
         });
 
     }

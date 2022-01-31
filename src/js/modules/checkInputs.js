@@ -49,10 +49,6 @@ const checkInputs = function (state, forms, closeFunction, showFunction, pop, wi
                 stop();
             } else {
                 next();
-
-
-
-
             }
             break;
     }
